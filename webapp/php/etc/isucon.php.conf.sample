@@ -12,9 +12,9 @@ Listen 0.0.0.0:5000
     DirectoryIndex index.php
 
     RewriteEngine on
-    RewriteRule ^/img/(.*)$ /public/img/$1 [L]
-    RewriteRule ^/css/(.*)$ /public/css/$1 [L]
-    RewriteRule ^/js/(.*)$ /public/js/$1 [L]
+#    RewriteRule ^/img/(.*)$ /public/img/$1 [L]
+#    RewriteRule ^/css/(.*)$ /public/css/$1 [L]
+#    RewriteRule ^/js/(.*)$ /public/js/$1 [L]
     RewriteRule ^(.*)$ /index.php?$1 [L]
 </VirtualHost>
 
