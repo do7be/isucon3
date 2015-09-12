@@ -84,7 +84,7 @@ function filter_get_user($route) {
 
     $user_id = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : null;
 
-    $stmt = $db->prepare('SELECT * FROM users WHERE id = :id');
+    $stmt = $db->prepare('SELECT id, username FROM users WHERE id = :id');
     $stmt->bindValue(':id', $user_id);
     $stmt->execute();
 
@@ -307,8 +307,6 @@ dispatch_get('/memo/:id', function() {
             if ($i < count($memos) - 1) {
                 $newer = $memos[$i + 1];
             }
-
-
         }
     }   
 
