@@ -141,12 +141,6 @@ dispatch_get('/', function() {
     }
 
     foreach($memos as &$memo) {
-        /*$stmt = $db->prepare('SELECT username FROM users WHERE id = :id');
-        $stmt->bindValue(':id', $memo["user"]);
-        $stmt->execute();
-
-        $result = $stmt->fetch(PDO::FETCH_ASSOC);*/
-
         $memo["username"] = $username[$memo['user']];
     }
 
@@ -170,14 +164,20 @@ dispatch_get('/recent/:page', function(){
     $stmt = $db->prepare("SELECT id, user, content, created_at FROM memos WHERE is_private=0 ORDER BY created_at DESC, id DESC LIMIT 100 OFFSET " . $page * 100);
     $stmt->execute();
     $memos = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    
+    // select username list
+    $stmt = $db->prepare('SELECT id, username FROM users');
+    $stmt->execute();
+    $users = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    // transform username from users
+    $username = array();
+    foreach ($users as $user) {
+        $username[$user['id']] = $user['username'];
+    }
 
     foreach($memos as &$memo) {
-        $stmt = $db->prepare('SELECT username FROM users WHERE id = :id');
-        $stmt->bindValue(':id', $memo["user"]);
-        $stmt->execute();
-
-        $result = $stmt->fetch(PDO::FETCH_ASSOC);
-        $memo["username"] = $result["username"];
+        $memo["username"] = $username[$memo['user']];
     }
 
     set('memos', $memos);
@@ -185,7 +185,6 @@ dispatch_get('/recent/:page', function(){
     set('total', $total);
 
     return html('index.html.php');
-
 });
 
 dispatch_get('/signin', function() {
