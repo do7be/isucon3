@@ -124,12 +124,12 @@ function markdown($content) {
 dispatch_get('/', function() {
     $db = option('db_conn');
 
-    $stmt = $db->prepare('SELECT count(*) AS total FROM memos WHERE is_private=0');
+    $stmt = $db->prepare('SELECT count(id) AS total FROM memos WHERE is_private=0');
     $stmt->execute();
     $result = $stmt->fetch(PDO::FETCH_ASSOC);
     $total = $result["total"];
 
-    $stmt = $db->prepare('SELECT * FROM memos WHERE is_private=0 ORDER BY created_at DESC, id DESC LIMIT 100');
+    $stmt = $db->prepare('SELECT id, user, content, created_at FROM memos WHERE is_private=0 ORDER BY created_at DESC, id DESC LIMIT 100');
     $stmt->execute();
     $memos = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
@@ -153,12 +153,12 @@ dispatch_get('/recent/:page', function(){
     $db = option('db_conn');
 
     $page = params('page');
-    $stmt = $db->prepare('SELECT count(*) AS total FROM memos WHERE is_private=0');
+    $stmt = $db->prepare('SELECT count(id) AS total FROM memos WHERE is_private=0');
     $stmt->execute();
     $result = $stmt->fetch(PDO::FETCH_ASSOC);
     $total = $result["total"];
 
-    $stmt = $db->prepare("SELECT * FROM memos WHERE is_private=0 ORDER BY created_at DESC, id DESC LIMIT 100 OFFSET " . $page * 100);
+    $stmt = $db->prepare("SELECT id, user, content, created_at FROM memos WHERE is_private=0 ORDER BY created_at DESC, id DESC LIMIT 100 OFFSET " . $page * 100);
     $stmt->execute();
     $memos = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
