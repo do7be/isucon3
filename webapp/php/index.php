@@ -129,13 +129,25 @@ dispatch_get('/', function() {
     $memos = $stmt->fetchAll(PDO::FETCH_ASSOC);
     $total = count($memos);
 
+    // select username list
+    $stmt = $db->prepare('SELECT id, username FROM users');
+    $stmt->execute();
+    $users = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    // transform username from users
+    $username = array();
+    foreach ($users as $user) {
+        $username[$user['id']] = $user['username'];
+    }
+
     foreach($memos as &$memo) {
-        $stmt = $db->prepare('SELECT username FROM users WHERE id = :id');
+        /*$stmt = $db->prepare('SELECT username FROM users WHERE id = :id');
         $stmt->bindValue(':id', $memo["user"]);
         $stmt->execute();
 
-        $result = $stmt->fetch(PDO::FETCH_ASSOC);
-        $memo["username"] = $result["username"];
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);*/
+
+        $memo["username"] = $username[$memo['user']];
     }
 
     set('memos', $memos);
