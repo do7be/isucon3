@@ -1,3 +1,5 @@
+$ sudo yum install zsh
+
 $ less /home/isucon/webapp/php/README.md
 
 $ sudo yum install httpd24 php54 php54-mysql php54-pecl-memcached
