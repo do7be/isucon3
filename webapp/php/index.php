@@ -292,7 +292,7 @@ dispatch_get('/memo/:id', function() {
         $cond = "AND is_private=0";
     }
 
-    $stmt = $db->prepare("SELECT * FROM memos WHERE user = :user " . $cond . " ORDER BY created_at");
+    $stmt = $db->prepare("SELECT id FROM memos WHERE user = :user " . $cond . " ORDER BY created_at");
     $stmt->bindValue(':user', $memo['user']);
     $stmt->execute();
     $memos = $stmt->fetchAll(PDO::FETCH_ASSOC);
