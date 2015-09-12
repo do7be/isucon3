@@ -19,4 +19,5 @@ CREATE TABLE `users` (
   `last_access` datetime,
   PRIMARY KEY (`id`),
   UNIQUE KEY `users_username_idx` (`username`)
+  INDEX `idx_username` (`username`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
